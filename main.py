@@ -1,6 +1,8 @@
 from pygame import *
 from scripts import button
 import sys
+import rick_roll
+import PIL
 
 
 difficulty = {1: 'easy (4 * 4)', 2: 'normal (5 * 5)', 3: 'hard (8 * 8)', 4: 'very hard (16 * 16)'}
@@ -17,14 +19,20 @@ display.set_icon(icon)
 bg_main = image.load('images/backGround/bg_main.png')
 bg_settings = image.load('images/backGround/bg_settings.png')
 bg_help = image.load('images/backGround/bg_help.png')
+bg_play = image.load('images/backGround/bg_play2.png')
+bg_play_rect = image.load('images/backGround/bg_play_Rect.png')
 
 bg_main2 = image.load('images/backGround/bg_main2.png')
 bg_settings2 = image.load('images/backGround/bg_settings2.png')
 bg_help2 = image.load('images/backGround/bg_help2.png')
+bg_play2 = image.load('images/backGround/bg_play3.png')
+bg_play_rect2 = image.load('images/backGround/bg_play_Rect2.png')
 
 bg_main3 = image.load('images/backGround/bg_main3.png')
 bg_settings3 = image.load('images/backGround/bg_settings3.png')
 bg_help3 = image.load('images/backGround/bg_help3.png')
+bg_play3 = image.load('images/backGround/bg_play4.png')
+bg_play_rect3 = image.load('images/backGround/bg_play_Rect3.png')
 
 PuzzleGame_txt = font.Font('Fonts/Honk-Regular-VariableFont_MORF,SHLN.ttf', 100)
 PuzzleGame_surface = PuzzleGame_txt.render('PuzzleGame', True, (230, 143, 85))
@@ -239,8 +247,8 @@ def video_settings():
         display.flip()
 
 def help():
-    global W
-    back_button1 = button.Button(W / 2 - (252 / 2), 700, 252, 74, "Back", 'images/buttons/static_button.png',
+    global W, H
+    back_button1 = button.Button(W / 2 - (252 / 2), H - 100, 252, 74, "Back", 'images/buttons/static_button.png',
                                  'images/buttons/hovered_button.png', 'sound_effects/button_clicked.mp3')
     display.update()
     running = True
@@ -276,7 +284,42 @@ def help():
 
 
 def new_game():
-    pass
+    global W, H
+    back_button2 = button.Button(W - 272, H - 100, 252, 74, "Back", 'images/buttons/static_button.png',
+                                 'images/buttons/hovered_button.png', 'sound_effects/button_clicked.mp3')
+    hint_button = button.Button(W - 272, H - 200, 252, 74, "Hint", 'images/buttons/static_button.png',
+                                 'images/buttons/hovered_button.png', 'sound_effects/button_clicked.mp3')
+    scroll_down_button = button.Button(W - 272, H - 300, 252, 74, "Scroll Down", 'images/buttons/static_button.png',
+                                 'images/buttons/hovered_button.png', 'sound_effects/button_clicked.mp3')
+    display.update()
+    running = True
+    while running:
+        screen.fill((0, 0, 0))
+        if W == 1280:
+            screen.blit(bg_play, (0, 0))
+            screen.blit(bg_play_rect, (0, 0))
+        elif W == 1600:
+            screen.blit(bg_play2, (0, 0))
+            screen.blit(bg_play_rect2, (0, 0))
+        else:
+            screen.blit(bg_play3, (0, 0))
+            screen.blit(bg_play_rect3, (0, 0))
+
+        for e in event.get():
+            if e.type == QUIT:
+                running = False
+
+            if e.type == USEREVENT and e.button == back_button2:
+                main_menu()
+                sys.exit()
+
+            for btn in [back_button2, hint_button, scroll_down_button]:
+                btn.handle_event(e)
+
+        for btn in [back_button2, hint_button, scroll_down_button]:
+            btn.draw(screen)
+            btn.check_hover(mouse.get_pos())
+        display.flip()
 
 
 if __name__ == '__main__':
