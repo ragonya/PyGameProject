@@ -3,6 +3,8 @@ from PIL import Image
 
 
 class folders:
+    global W
+    global H
     def create_folder():  # создание временной папки
         if not os.path.isdir('temp_folder'):
             os.mkdir('temp_folder')

@@ -3,7 +3,7 @@ from scripts import button
 import sys
 from scripts import temp_folder
 import PIL
-
+from scripts import check_pos
 
 difficulty = {1: 'easy (4 * 4)', 2: 'normal (5 * 5)', 3: 'hard (8 * 8)', 4: 'very hard (16 * 16)'}  # стартовые настройки
 dif = {1: 4, 2: 5, 3: 8, 4: 16}
@@ -335,15 +335,17 @@ def new_game():
                 pass
 
             if e.type == KEYDOWN:
-                if e.button == K_RETURN:
-                    pass
-                elif e.button == K_BACKSPACE:
+                if e.key == K_RETURN:  # проверка позиции
+                    position = check_pos.check.check_position()
+                elif e.key == K_BACKSPACE:
                     text = text[0:-1]
                     text_surface = main_font.render(text, True, (26, 117, 47))
                 else:
                     text += e.unicode
                     text_surface = main_font.render(text, True, (26, 117, 47))
 
+            if position:
+                pass  # завтра
             for btn in [back_button2, hint_button, scroll_down_button, check_button]:
                 btn.handle_event(e)
 
