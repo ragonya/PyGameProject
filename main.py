@@ -46,16 +46,16 @@ messed_up_3_2 = image.load('images/you_messed_up/haha_you_messed_up_3_2.png')  #
 
 PuzzleGame_txt = font.Font('Fonts/Honk-Regular-VariableFont_MORF,SHLN.ttf', 100)
 PuzzleGame_surface = PuzzleGame_txt.render('PuzzleGame', True, (230, 143, 85))
-main_font = font.Font('Fonts/Oswald-VariableFont_wght.ttf', 15)
+main_font = font.Font('Fonts/Oswald-VariableFont_wght.ttf', 50)
 
 settings_txt = font.Font('Fonts/Honk-Regular-VariableFont_MORF,SHLN.ttf', 100)
-settings_surface = PuzzleGame_txt.render('Settings', True, (230, 143, 85))
+settings_surface = settings_txt.render('Settings', True, (230, 143, 85))
 
 video_settings_txt = font.Font('Fonts/Honk-Regular-VariableFont_MORF,SHLN.ttf', 100)
-video_settings_surface = PuzzleGame_txt.render('Video Settings', True, (230, 143, 85))
+video_settings_surface = video_settings_txt.render('Video Settings', True, (230, 143, 85))
 
 help_txt = font.Font('Fonts/Honk-Regular-VariableFont_MORF,SHLN.ttf', 100)
-help_surface = PuzzleGame_txt.render('Help', True, (230, 143, 85))
+help_surface = help_txt.render('Help', True, (230, 143, 85))
 
 
 def diff(df_bt):  # сложности
@@ -295,12 +295,16 @@ def help():
 
 def new_game():
     global W, H, count
+    text = '1235'
+    text_surface = main_font.render(text, True, (26, 117, 47))
     temp_folder.folders.main(dif[count])
     back_button2 = button.Button(W - 272, H - 100, 252, 74, "Back", 'images/buttons/static_button.png',
                                  'images/buttons/hovered_button.png', 'sound_effects/button_clicked.mp3')
     hint_button = button.Button(W - 272, H - 200, 252, 74, "Hint", 'images/buttons/static_button.png',
                                  'images/buttons/hovered_button.png', 'sound_effects/button_clicked.mp3')
     scroll_down_button = button.Button(W - 272, H - 300, 252, 74, "Scroll Down", 'images/buttons/static_button.png',
+                                 'images/buttons/hovered_button.png', 'sound_effects/button_clicked.mp3')
+    check_button = button.Button(W - 272, H - 400, 252, 74, "Check placement", 'images/buttons/static_button.png',
                                  'images/buttons/hovered_button.png', 'sound_effects/button_clicked.mp3')
     display.update()
     running = True
@@ -309,12 +313,15 @@ def new_game():
         if W == 1280:
             screen.blit(bg_play, (0, 0))
             screen.blit(bg_play_rect, (0, 0))  # фон в главном меню
+            screen.blit(text_surface, (W - 272, H - 500))
         elif W == 1600:
             screen.blit(bg_play2, (0, 0))
             screen.blit(bg_play_rect2, (0, 0))
+            screen.blit(text_surface, (W - 272, H - 500))
         else:
             screen.blit(bg_play3, (0, 0))
             screen.blit(bg_play_rect3, (0, 0))
+            screen.blit(text_surface, (W - 272, H - 500))
 
         for e in event.get():
             if e.type == QUIT:
@@ -324,10 +331,23 @@ def new_game():
                 main_menu()
                 sys.exit()
 
-            for btn in [back_button2, hint_button, scroll_down_button]:
+            if e.type == USEREVENT and e.button == check_button:
+                pass
+
+            if e.type == KEYDOWN:
+                if e.button == K_RETURN:
+                    pass
+                elif e.button == K_BACKSPACE:
+                    text = text[0:-1]
+                    text_surface = main_font.render(text, True, (26, 117, 47))
+                else:
+                    text += e.unicode
+                    text_surface = main_font.render(text, True, (26, 117, 47))
+
+            for btn in [back_button2, hint_button, scroll_down_button, check_button]:
                 btn.handle_event(e)
 
-        for btn in [back_button2, hint_button, scroll_down_button]:
+        for btn in [back_button2, hint_button, scroll_down_button, check_button]:
             btn.draw(screen)
             btn.check_hover(mouse.get_pos())
         display.flip()
