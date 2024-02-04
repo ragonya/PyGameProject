@@ -5,7 +5,7 @@ import rick_roll
 import PIL
 
 
-difficulty = {1: 'easy (4 * 4)', 2: 'normal (5 * 5)', 3: 'hard (8 * 8)', 4: 'very hard (16 * 16)'}
+difficulty = {1: 'easy (4 * 4)', 2: 'normal (5 * 5)', 3: 'hard (8 * 8)', 4: 'very hard (16 * 16)'} # стартовые настройки
 count = 1
 
 init()
@@ -48,7 +48,7 @@ help_txt = font.Font('Fonts/Honk-Regular-VariableFont_MORF,SHLN.ttf', 100)
 help_surface = PuzzleGame_txt.render('Help', True, (230, 143, 85))
 
 
-def diff(df_bt):
+def diff(df_bt): # сложности
     global count
     global difficulty
     del df_bt
@@ -70,7 +70,7 @@ def diff(df_bt):
 display.flip()
 
 
-def main_menu():
+def main_menu(): # менюшка
     global W
     play_button = button.Button(W / 2 - (252 / 2), 200, 252, 74, "Play",
                                 'images/buttons/static_button.png',
@@ -138,7 +138,7 @@ def main_menu():
             btn.check_hover(mouse.get_pos())
         display.flip()
 
-def settings_menu():
+def settings_menu(): # меню настроек
     global W
     audio_button = button.Button(W / 2 - (252 / 2), 200, 252, 74, "Audio", 'images/buttons/static_button.png',
                                  'images/buttons/hovered_button.png', 'sound_effects/button_clicked.mp3')
@@ -297,7 +297,7 @@ def new_game():
         screen.fill((0, 0, 0))
         if W == 1280:
             screen.blit(bg_play, (0, 0))
-            screen.blit(bg_play_rect, (0, 0))
+            screen.blit(bg_play_rect, (0, 0)) # фон в главном меню
         elif W == 1600:
             screen.blit(bg_play2, (0, 0))
             screen.blit(bg_play_rect2, (0, 0))
