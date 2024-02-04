@@ -186,7 +186,7 @@ def settings_menu(): # меню настроек
 def video_settings():
     global W, H
     global screen
-
+    # настройки видео
     basic_button = button.Button(W / 2 - (252 / 2), 200, 252, 74, "1200 x 800", 'images/buttons/static_button.png',
                                  'images/buttons/hovered_button.png', 'sound_effects/button_clicked.mp3')
     medium_button = button.Button(W / 2 - (252 / 2), 290, 252, 74, "1500 x 1000", 'images/buttons/static_button.png',
