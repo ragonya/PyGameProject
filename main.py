@@ -1,11 +1,12 @@
 from pygame import *
 from scripts import button
 import sys
-import rick_roll
+from scripts import temp_folder
 import PIL
 
 
-difficulty = {1: 'easy (4 * 4)', 2: 'normal (5 * 5)', 3: 'hard (8 * 8)', 4: 'very hard (16 * 16)'} # стартовые настройки
+difficulty = {1: 'easy (4 * 4)', 2: 'normal (5 * 5)', 3: 'hard (8 * 8)', 4: 'very hard (16 * 16)'}  # стартовые настройки
+dif = {1: 4, 2: 5, 3: 8, 4: 16}
 count = 1
 
 init()
@@ -34,6 +35,15 @@ bg_help3 = image.load('images/backGround/bg_help3.png')
 bg_play3 = image.load('images/backGround/bg_play4.png')
 bg_play_rect3 = image.load('images/backGround/bg_play_Rect3.png')
 
+messed_up_1_1 = image.load('images/you_messed_up/haha_you_messed_up_1_1.png')  # 1 сек до продолжения 1280 x 800
+messed_up_1_2 = image.load('images/you_messed_up/haha_you_messed_up_1_2.png')  # 2 сек до продолжения 1280 x 800
+
+messed_up_2_1 = image.load('images/you_messed_up/haha_you_messed_up_2_1.png')  # 1 сек до продолжения 1600 x 1000
+messed_up_2_2 = image.load('images/you_messed_up/haha_you_messed_up_2_2.png')  # 2 сек до продолжения 1600 x 1000
+
+messed_up_3_1 = image.load('images/you_messed_up/haha_you_messed_up_3_1.png')  # 1 сек до продолжения 1920 x 1200
+messed_up_3_2 = image.load('images/you_messed_up/haha_you_messed_up_3_2.png')  # 2 сек до продолжения 1920 x 1200
+
 PuzzleGame_txt = font.Font('Fonts/Honk-Regular-VariableFont_MORF,SHLN.ttf', 100)
 PuzzleGame_surface = PuzzleGame_txt.render('PuzzleGame', True, (230, 143, 85))
 main_font = font.Font('Fonts/Oswald-VariableFont_wght.ttf', 15)
@@ -48,7 +58,7 @@ help_txt = font.Font('Fonts/Honk-Regular-VariableFont_MORF,SHLN.ttf', 100)
 help_surface = PuzzleGame_txt.render('Help', True, (230, 143, 85))
 
 
-def diff(df_bt): # сложности
+def diff(df_bt):  # сложности
     global count
     global difficulty
     del df_bt
@@ -70,7 +80,7 @@ def diff(df_bt): # сложности
 display.flip()
 
 
-def main_menu(): # менюшка
+def main_menu():  # менюшка
     global W
     play_button = button.Button(W / 2 - (252 / 2), 200, 252, 74, "Play",
                                 'images/buttons/static_button.png',
@@ -138,7 +148,7 @@ def main_menu(): # менюшка
             btn.check_hover(mouse.get_pos())
         display.flip()
 
-def settings_menu(): # меню настроек
+def settings_menu():  # меню настроек
     global W
     audio_button = button.Button(W / 2 - (252 / 2), 200, 252, 74, "Audio", 'images/buttons/static_button.png',
                                  'images/buttons/hovered_button.png', 'sound_effects/button_clicked.mp3')
@@ -284,7 +294,8 @@ def help():
 
 
 def new_game():
-    global W, H
+    global W, H, count
+    temp_folder.folders.main(dif[count])
     back_button2 = button.Button(W - 272, H - 100, 252, 74, "Back", 'images/buttons/static_button.png',
                                  'images/buttons/hovered_button.png', 'sound_effects/button_clicked.mp3')
     hint_button = button.Button(W - 272, H - 200, 252, 74, "Hint", 'images/buttons/static_button.png',
@@ -297,7 +308,7 @@ def new_game():
         screen.fill((0, 0, 0))
         if W == 1280:
             screen.blit(bg_play, (0, 0))
-            screen.blit(bg_play_rect, (0, 0)) # фон в главном меню
+            screen.blit(bg_play_rect, (0, 0))  # фон в главном меню
         elif W == 1600:
             screen.blit(bg_play2, (0, 0))
             screen.blit(bg_play_rect2, (0, 0))
