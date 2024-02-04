@@ -15,7 +15,7 @@ display.set_caption('PuzzleGame')
 
 icon = image.load('images/icon/icon.png')
 display.set_icon(icon)
-
+# изображения
 bg_main = image.load('images/backGround/bg_main.png')
 bg_settings = image.load('images/backGround/bg_settings.png')
 bg_help = image.load('images/backGround/bg_help.png')
