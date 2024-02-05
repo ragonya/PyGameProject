@@ -3,7 +3,7 @@ from scripts import button
 import sys
 from scripts import temp_folder
 import PIL
-from scripts import check_pos
+
 
 difficulty = {1: 'easy (4 * 4)', 2: 'normal (5 * 5)', 3: 'hard (8 * 8)', 4: 'very hard (16 * 16)'}  # стартовые настройки
 dif = {1: 4, 2: 5, 3: 8, 4: 16}
@@ -47,6 +47,7 @@ messed_up_3_2 = image.load('images/you_messed_up/haha_you_messed_up_3_2.png')  #
 PuzzleGame_txt = font.Font('Fonts/Honk-Regular-VariableFont_MORF,SHLN.ttf', 100)
 PuzzleGame_surface = PuzzleGame_txt.render('PuzzleGame', True, (230, 143, 85))
 main_font = font.Font('Fonts/Oswald-VariableFont_wght.ttf', 50)
+main_font2 = font.Font('Fonts/Oswald-VariableFont_wght.ttf', 40)
 
 settings_txt = font.Font('Fonts/Honk-Regular-VariableFont_MORF,SHLN.ttf', 100)
 settings_surface = settings_txt.render('Settings', True, (230, 143, 85))
@@ -56,6 +57,13 @@ video_settings_surface = video_settings_txt.render('Video Settings', True, (230,
 
 help_txt = font.Font('Fonts/Honk-Regular-VariableFont_MORF,SHLN.ttf', 100)
 help_surface = help_txt.render('Help', True, (230, 143, 85))
+
+help_description_surface1 = main_font2.render('1. Choose difficulty by clicking on the second button in main menu.', True, (196, 2, 21))
+help_description_surface2 = main_font2.render('2. Choose comfortable window size in settings/video.', True, (196, 2, 21))
+help_description_surface3 = main_font2.render('3. Click play button.', True, (196, 2, 21))
+help_description_surface4 = main_font2.render('4. Type position of the picture by typing on keyboard, click check placement button.', True, (196, 2, 21))
+help_description_surface5 = main_font2.render('5. Click scroll ddwn button if you cant imagine where position of the picture will be.', True, (196, 2, 21))
+help_description_surface6 = main_font2.render('6. Enjoy!', True, (196, 2, 21))
 
 
 def diff(df_bt):  # сложности
@@ -271,6 +279,12 @@ def help():
         else:
             screen.blit(bg_help3, (0, 0))
         screen.blit(help_surface, (W // 2 - help_surface.get_width() // 2, 20))
+        screen.blit(help_description_surface1, (W // 2 - help_description_surface1.get_width() // 2, 140))
+        screen.blit(help_description_surface2, (W // 2 - help_description_surface2.get_width() // 2, 220))
+        screen.blit(help_description_surface3, (W // 2 - help_description_surface3.get_width() // 2, 300))
+        screen.blit(help_description_surface4, (W // 2 - help_description_surface4.get_width() // 2, 380))
+        screen.blit(help_description_surface5, (W // 2 - help_description_surface5.get_width() // 2, 460))
+        screen.blit(help_description_surface6, (W // 2 - help_description_surface6.get_width() // 2, 540))
 
         for e in event.get():
             if e.type == QUIT:
@@ -335,8 +349,8 @@ def new_game():
                 pass
 
             if e.type == KEYDOWN:
-                if e.key == K_RETURN:  # проверка позиции
-                    position = check_pos.check.check_position()
+                if e.key == K_RETURN:
+                    pass
                 elif e.key == K_BACKSPACE:
                     text = text[0:-1]
                     text_surface = main_font.render(text, True, (26, 117, 47))
@@ -344,8 +358,6 @@ def new_game():
                     text += e.unicode
                     text_surface = main_font.render(text, True, (26, 117, 47))
 
-            if position:
-                pass  # завтра
             for btn in [back_button2, hint_button, scroll_down_button, check_button]:
                 btn.handle_event(e)
 
