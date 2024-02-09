@@ -205,9 +205,9 @@ def video_settings():
     global W, H
     global screen
     # настройки видео
-    basic_button = button.Button(W / 2 - (252 / 2), 200, 252, 74, "1200 x 800", 'images/buttons/static_button.png',
+    basic_button = button.Button(W / 2 - (252 / 2), 200, 252, 74, "1280 x 800", 'images/buttons/static_button.png',
                                  'images/buttons/hovered_button.png', 'sound_effects/button_clicked.mp3')
-    medium_button = button.Button(W / 2 - (252 / 2), 290, 252, 74, "1500 x 1000", 'images/buttons/static_button.png',
+    medium_button = button.Button(W / 2 - (252 / 2), 290, 252, 74, "1600 x 1000", 'images/buttons/static_button.png',
                                  'images/buttons/hovered_button.png', 'sound_effects/button_clicked.mp3')
     FULL_HD_button = button.Button(W / 2 - (252 / 2), 380, 252, 74, "Full HD", 'images/buttons/static_button.png',
                                  'images/buttons/hovered_button.png', 'sound_effects/button_clicked.mp3')
@@ -350,14 +350,26 @@ def new_game():
 
             if e.type == KEYDOWN:
                 if e.key == K_RETURN:
-                    pass
+                    if W == 1280:
+                        screen.blit()
+                    elif W == 1600:
+                        screen.blit()
+                    else:
+                        screen.blit()
                 elif e.key == K_BACKSPACE:
                     text = text[0:-1]
                     text_surface = main_font.render(text, True, (26, 117, 47))
                 else:
                     text += e.unicode
                     text_surface = main_font.render(text, True, (26, 117, 47))
-
+            
+            if e.type == USEREVENT and e.button == scroll_down_button:
+                if index >= dif[count] * dif[count]:
+                    index = 0
+                else:
+                    index += 1
+                current_image_BG = image.load()
+            
             for btn in [back_button2, hint_button, scroll_down_button, check_button]:
                 btn.handle_event(e)
 
