@@ -3,8 +3,6 @@ from PIL import Image
 
 
 class folders:
-    global W
-    global H
     def create_folder():  # создание временной папки
         if not os.path.isdir('temp_folder'):
             os.mkdir('temp_folder')
@@ -19,14 +17,14 @@ class folders:
         if not os.path.exists(save_dir):
             os.makedirs(save_dir)
 
-        for y in range(num_squares):
+        for y in range(1, num_squares + 1):
             for x in range(num_squares):
                 left = x * square_size
                 upper = y * square_size
                 right = left + square_size
                 lower = upper + square_size
                 square = image.crop((left, upper, right, lower))
-                square.save(os.path.join(save_dir, f"square_{x}_{y}.jpg"))
+                square.save(os.path.join(save_dir, f"square_{num_squares * (y - 1) + x}.jpg"))
 
     def make_sqares(sq1):  # создание мозаики
         image_path = "images/images_to_pazzle/file.png"
