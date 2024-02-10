@@ -1,4 +1,5 @@
 from pygame import *
 import sys
-import PIL
+import random
 import os
+from PIL import Image
