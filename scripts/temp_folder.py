@@ -10,6 +10,7 @@ class folders:
             pass
 
     def split_image_into_squares(image_path, save_dir, num_squares):  # алгоритм разбития
+        global square_size
         image = Image.open(image_path)
         width, height = image.size
         square_size = min(width, height) // num_squares
