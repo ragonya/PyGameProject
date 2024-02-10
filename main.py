@@ -1,8 +1,9 @@
 from pygame import *
 from scripts import button
 import sys
+import random
 from scripts import temp_folder
-import PIL
+from PIL import Image
 
 
 difficulty = {1: 'easy (4 * 4)', 2: 'normal (5 * 5)', 3: 'hard (8 * 8)', 4: 'very hard (16 * 16)'}  # стартовые настройки
@@ -22,18 +23,21 @@ bg_settings = image.load('images/backGround/bg_settings.png')
 bg_help = image.load('images/backGround/bg_help.png')
 bg_play = image.load('images/backGround/bg_play2.png')
 bg_play_rect = image.load('images/backGround/bg_play_Rect.png')
+bg_play_rect_PIL = Image.open('images/backGround/bg_play_Rect.png')
 
 bg_main2 = image.load('images/backGround/bg_main2.png')
 bg_settings2 = image.load('images/backGround/bg_settings2.png')
 bg_help2 = image.load('images/backGround/bg_help2.png')
 bg_play2 = image.load('images/backGround/bg_play3.png')
 bg_play_rect2 = image.load('images/backGround/bg_play_Rect2.png')
+bg_play_rect2_PIL = Image.open('images/backGround/bg_play_Rect2.png')
 
 bg_main3 = image.load('images/backGround/bg_main3.png')
 bg_settings3 = image.load('images/backGround/bg_settings3.png')
 bg_help3 = image.load('images/backGround/bg_help3.png')
 bg_play3 = image.load('images/backGround/bg_play4.png')
 bg_play_rect3 = image.load('images/backGround/bg_play_Rect3.png')
+bg_play_rect3_PIL = Image.open('images/backGround/bg_play_Rect3.png')
 
 messed_up_1_1 = image.load('images/you_messed_up/haha_you_messed_up_1_1.png')  # 1 сек до продолжения 1280 x 800
 messed_up_1_2 = image.load('images/you_messed_up/haha_you_messed_up_1_2.png')  # 2 сек до продолжения 1280 x 800
@@ -309,7 +313,8 @@ def help():
 
 def new_game():
     global W, H, count
-    text = '1235'
+    text = ''
+    index = 0
     text_surface = main_font.render(text, True, (26, 117, 47))
     temp_folder.folders.main(dif[count])
     back_button2 = button.Button(W - 272, H - 100, 252, 74, "Back", 'images/buttons/static_button.png',
@@ -320,6 +325,11 @@ def new_game():
                                  'images/buttons/hovered_button.png', 'sound_effects/button_clicked.mp3')
     check_button = button.Button(W - 272, H - 400, 252, 74, "Check placement", 'images/buttons/static_button.png',
                                  'images/buttons/hovered_button.png', 'sound_effects/button_clicked.mp3')
+    index_list = []
+    for i in range(0, dif[count] * dif[count]):
+        index_list.append(i)
+    random.shuffle(index_list)
+    current_image = image.load(f'temp_folder/square_{index_list[index]}.jpg')
     display.update()
     running = True
     while running:
@@ -328,14 +338,26 @@ def new_game():
             screen.blit(bg_play, (0, 0))
             screen.blit(bg_play_rect, (0, 0))  # фон в главном меню
             screen.blit(text_surface, (W - 272, H - 500))
+            width, height = bg_play_rect_PIL.size
         elif W == 1600:
             screen.blit(bg_play2, (0, 0))
             screen.blit(bg_play_rect2, (0, 0))
             screen.blit(text_surface, (W - 272, H - 500))
+            width, height = bg_play_rect2_PIL.size
         else:
             screen.blit(bg_play3, (0, 0))
             screen.blit(bg_play_rect3, (0, 0))
             screen.blit(text_surface, (W - 272, H - 500))
+            width, height = bg_play_rect3_PIL.size
+
+        screen.blit(current_image, (W - 272, 50))
+        left = (width - temp_folder.square_size * dif[count]) // 2
+        for x in range(0, dif[count] + 1):
+            draw.line(screen, Color('BLACK'), [left + temp_folder.square_size * x, 0],
+                      [left + temp_folder.square_size * x, height], 3)
+        for y in range(0, dif[count] + 1):
+            draw.line(screen, Color('BLACK'), [left, temp_folder.square_size * y],
+                      [left + temp_folder.square_size * dif[count], temp_folder.square_size * y], 3)
 
         for e in event.get():
             if e.type == QUIT:
@@ -350,26 +372,27 @@ def new_game():
 
             if e.type == KEYDOWN:
                 if e.key == K_RETURN:
-                    if W == 1280:
-                        screen.blit()
-                    elif W == 1600:
-                        screen.blit()
-                    else:
-                        screen.blit()
+                    pass
+                    #if W == 1280:
+                    #    screen.blit()
+                    #elif W == 1600:
+                    #    screen.blit()
+                    #else:
+                    #    screen.blit()
                 elif e.key == K_BACKSPACE:
                     text = text[0:-1]
                     text_surface = main_font.render(text, True, (26, 117, 47))
                 else:
                     text += e.unicode
                     text_surface = main_font.render(text, True, (26, 117, 47))
-            
+
             if e.type == USEREVENT and e.button == scroll_down_button:
-                if index >= dif[count] * dif[count]:
+                if index + 1 >= len(index_list):
                     index = 0
                 else:
                     index += 1
-                current_image_BG = image.load()
-            
+                current_image = image.load(f'temp_folder/square_{index_list[index]}.jpg')
+
             for btn in [back_button2, hint_button, scroll_down_button, check_button]:
                 btn.handle_event(e)
 
