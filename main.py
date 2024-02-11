@@ -54,6 +54,7 @@ PuzzleGame_txt = font.Font('Fonts/Honk-Regular-VariableFont_MORF,SHLN.ttf', 100)
 PuzzleGame_surface = PuzzleGame_txt.render('PuzzleGame', True, (230, 143, 85))
 main_font = font.Font('Fonts/Oswald-VariableFont_wght.ttf', 50)
 main_font2 = font.Font('Fonts/Oswald-VariableFont_wght.ttf', 40)
+font_to_warning = font.Font('Fonts/Oswald-VariableFont_wght.ttf', 35)
 
 settings_txt = font.Font('Fonts/Honk-Regular-VariableFont_MORF,SHLN.ttf', 100)
 settings_surface = settings_txt.render('Settings', True, (230, 143, 85))
@@ -331,11 +332,12 @@ def collecting_angles(left1, top1):
 
 def new_game():
     global W, H, count
-    images_placed = {}
     text = ''
     index = 0
     text_surface = main_font.render(text, True, (26, 117, 47))
     temp_folder.folders.main(dif[count])
+    value_check = []
+    bool_type = {}
     back_button2 = button.Button(W - 272, H - 100, 252, 74, "Back", 'images/buttons/static_button.png',
                                  'images/buttons/hovered_button.png', 'sound_effects/button_clicked.mp3')
     hint_button = button.Button(W - 272, H - 200, 252, 74, "Hint", 'images/buttons/static_button.png',
@@ -369,9 +371,11 @@ def new_game():
             screen.blit(text_surface, (W - 272, H - 500))
             width, height = bg_play_rect3_PIL.size
 
-        for i in range(len(images_placed)):
-            keys = list(images_placed.keys())
-            screen.blit(keys[i], images_placed[keys[i]])
+        for i in range(len(bool_type)):
+            keys = list(bool_type.keys())
+            if bool_type[keys[i]]:
+                image_to_load = image.load(f'temp_folder/square_{bool_type[keys[i]]}.jpg')
+                screen.blit(image_to_load, left_top_angles[str(keys[i] - 1)])
 
         screen.blit(current_image, (W - 272, 50))
         left = (width - temp_folder.square_size * dif[count]) // 2
@@ -399,18 +403,35 @@ def new_game():
                     text = text[0:-1]
                     text_surface = main_font.render(text, True, (26, 117, 47))
                 elif e.key == K_RETURN:
-                    images_placed[f'{current_image}'] = left_top_angles[str(int(text) - 1)]
+                    if text == '':
+                        text = 'please type digit'
+                        text_surface = font_to_warning.render(text, True, (26, 117, 47))
+                        text = ''
+                    elif int(text) <= dif[count] * dif[count] and (int(text) > 0):
+                        if index_list[index] not in value_check:
+                            bool_type[int(text)] = index_list[index]
+                            value_check.append(index_list[index])
+                            text = ''
+                            text_surface = main_font.render(text, True, (26, 117, 47))
+                        else:
+                            text = 'image already used'
+                            text_surface = font_to_warning.render(text, True, (26, 117, 47))
+                            text = ''
                 else:
-                    text += e.unicode
-                    text_surface = main_font.render(text, True, (26, 117, 47))
+                    if e.unicode.isdigit():
+                        text += e.unicode
+                        text_surface = main_font.render(text, True, (26, 117, 47))
 
             if e.type == USEREVENT and e.button == scroll_down_button:
-                print(left_top_angles)  # проверка
                 if index + 1 >= len(index_list):
                     index = 0
                 else:
                     index += 1
                 current_image = image.load(f'temp_folder/square_{index_list[index]}.jpg')
+
+            if e.type == USEREVENT and e.button == hint_button:
+                text = str(index_list[index] + 1)
+                text_surface = main_font.render(text, True, (26, 117, 47))
 
             for btn in [back_button2, hint_button, scroll_down_button, check_button]:
                 btn.handle_event(e)
