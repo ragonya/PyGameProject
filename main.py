@@ -376,7 +376,7 @@ def new_game():
             if bool_type[keys[i]]:
                 image_to_load = image.load(f'temp_folder/square_{bool_type[keys[i]]}.jpg')
                 screen.blit(image_to_load, left_top_angles[str(keys[i] - 1)])
-
+        print(bool_type)
         screen.blit(current_image, (W - 272, 50))
         left = (width - temp_folder.square_size * dif[count]) // 2
         top = (height - temp_folder.square_size * dif[count]) // 2
@@ -405,7 +405,7 @@ def new_game():
                 elif e.key == K_RETURN:
                     if text == '':
                         text = 'please type digit'
-                        text_surface = font_to_warning.render(text, True, (26, 117, 47))
+                        text_surface = font_to_warning.render(text, True, Color('RED'))
                         text = ''
                     elif int(text) <= dif[count] * dif[count] and (int(text) > 0):
                         if index_list[index] not in value_check:
@@ -415,8 +415,10 @@ def new_game():
                             text_surface = main_font.render(text, True, (26, 117, 47))
                         else:
                             text = 'image already used'
-                            text_surface = font_to_warning.render(text, True, (26, 117, 47))
+                            text_surface = font_to_warning.render(text, True, Color('RED'))
                             text = ''
+                elif e.key == K_z:
+                    del bool_type[list(bool_type.keys())[-1]]
                 else:
                     if e.unicode.isdigit():
                         text += e.unicode
