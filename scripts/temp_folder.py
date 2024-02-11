@@ -25,7 +25,7 @@ class folders:
                 right = left + square_size
                 lower = upper + square_size
                 square = image.crop((left, upper, right, lower))
-                square.save(os.path.join(save_dir, f"square_{num_squares * (y - 1) + x}.jpg"))
+                square.save(os.path.join(save_dir, f"square_{num_squares * (y - 1) + x + 1}.jpg"))
 
     def make_sqares(sq1):  # создание мозаики
         image_path = "images/images_to_pazzle/file.png"
