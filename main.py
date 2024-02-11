@@ -1,14 +1,16 @@
 from pygame import *
 from scripts import button
+from scripts import temp_folder
 import sys
 import random
-from scripts import temp_folder
 from PIL import Image
 
-
-difficulty = {1: 'easy (4 * 4)', 2: 'normal (5 * 5)', 3: 'hard (8 * 8)', 4: 'very hard (16 * 16)'}  # стартовые настройки
+difficulty = {1: 'easy (4 * 4)', 2: 'normal (5 * 5)', 3: 'hard (8 * 8)',
+              4: 'very hard (16 * 16)'}  # стартовые настройки
 dif = {1: 4, 2: 5, 3: 8, 4: 16}
+left_top_angles = {}
 count = 1
+#image_number = 0
 
 init()
 W, H = 1280, 800
@@ -62,11 +64,15 @@ video_settings_surface = video_settings_txt.render('Video Settings', True, (230,
 help_txt = font.Font('Fonts/Honk-Regular-VariableFont_MORF,SHLN.ttf', 100)
 help_surface = help_txt.render('Help', True, (230, 143, 85))
 
-help_description_surface1 = main_font2.render('1. Choose difficulty by clicking on the second button in main menu.', True, (196, 2, 21))
-help_description_surface2 = main_font2.render('2. Choose comfortable window size in settings/video.', True, (196, 2, 21))
+help_description_surface1 = main_font2.render('1. Choose difficulty by clicking on the second button in main menu.',
+                                              True, (196, 2, 21))
+help_description_surface2 = main_font2.render('2. Choose comfortable window size in settings/video.', True,
+                                              (196, 2, 21))
 help_description_surface3 = main_font2.render('3. Click play button.', True, (196, 2, 21))
-help_description_surface4 = main_font2.render('4. Type position of the picture by typing on keyboard, click check placement button.', True, (196, 2, 21))
-help_description_surface5 = main_font2.render('5. Click scroll ddwn button if you cant imagine where position of the picture will be.', True, (196, 2, 21))
+help_description_surface4 = main_font2.render(
+    '4. Type position of the picture by typing on keyboard, click check placement button.', True, (196, 2, 21))
+help_description_surface5 = main_font2.render(
+    '5. Click scroll ddwn button if you cant imagine where position of the picture will be.', True, (196, 2, 21))
 help_description_surface6 = main_font2.render('6. Enjoy!', True, (196, 2, 21))
 
 
@@ -160,6 +166,7 @@ def main_menu():  # менюшка
             btn.check_hover(mouse.get_pos())
         display.flip()
 
+
 def settings_menu():  # меню настроек
     global W
     audio_button = button.Button(W / 2 - (252 / 2), 200, 252, 74, "Audio", 'images/buttons/static_button.png',
@@ -205,6 +212,7 @@ def settings_menu():  # меню настроек
             btn.check_hover(mouse.get_pos())
         display.flip()
 
+
 def video_settings():
     global W, H
     global screen
@@ -212,9 +220,9 @@ def video_settings():
     basic_button = button.Button(W / 2 - (252 / 2), 200, 252, 74, "1280 x 800", 'images/buttons/static_button.png',
                                  'images/buttons/hovered_button.png', 'sound_effects/button_clicked.mp3')
     medium_button = button.Button(W / 2 - (252 / 2), 290, 252, 74, "1600 x 1000", 'images/buttons/static_button.png',
-                                 'images/buttons/hovered_button.png', 'sound_effects/button_clicked.mp3')
+                                  'images/buttons/hovered_button.png', 'sound_effects/button_clicked.mp3')
     FULL_HD_button = button.Button(W / 2 - (252 / 2), 380, 252, 74, "Full HD", 'images/buttons/static_button.png',
-                                 'images/buttons/hovered_button.png', 'sound_effects/button_clicked.mp3')
+                                   'images/buttons/hovered_button.png', 'sound_effects/button_clicked.mp3')
     back_button = button.Button(W / 2 - (252 / 2), 470, 252, 74, "Back", 'images/buttons/static_button.png',
                                 'images/buttons/hovered_button.png', 'sound_effects/button_clicked.mp3')
     display.update()
@@ -268,6 +276,7 @@ def video_settings():
             btn.check_hover(mouse.get_pos())
         display.flip()
 
+
 def help():
     global W, H
     back_button1 = button.Button(W / 2 - (252 / 2), H - 100, 252, 74, "Back", 'images/buttons/static_button.png',
@@ -311,6 +320,15 @@ def help():
         display.flip()
 
 
+def collecting_angles(left1, top1):
+    image_number = 0
+    for y in range(0, dif[count]):  # отступ top
+        for x in range(0, dif[count]):  # отступ left
+            left_top_angles[f'{image_number}'] = (left1 + x * temp_folder.square_size,
+                                                  top1 + y * temp_folder.square_size)
+            image_number += 1
+
+
 def new_game():
     global W, H, count
     text = ''
@@ -320,9 +338,9 @@ def new_game():
     back_button2 = button.Button(W - 272, H - 100, 252, 74, "Back", 'images/buttons/static_button.png',
                                  'images/buttons/hovered_button.png', 'sound_effects/button_clicked.mp3')
     hint_button = button.Button(W - 272, H - 200, 252, 74, "Hint", 'images/buttons/static_button.png',
-                                 'images/buttons/hovered_button.png', 'sound_effects/button_clicked.mp3')
+                                'images/buttons/hovered_button.png', 'sound_effects/button_clicked.mp3')
     scroll_down_button = button.Button(W - 272, H - 300, 252, 74, "Scroll Down", 'images/buttons/static_button.png',
-                                 'images/buttons/hovered_button.png', 'sound_effects/button_clicked.mp3')
+                                       'images/buttons/hovered_button.png', 'sound_effects/button_clicked.mp3')
     check_button = button.Button(W - 272, H - 400, 252, 74, "Check placement", 'images/buttons/static_button.png',
                                  'images/buttons/hovered_button.png', 'sound_effects/button_clicked.mp3')
     index_list = []
@@ -359,7 +377,7 @@ def new_game():
         for y in range(0, dif[count] + 1):
             draw.line(screen, Color('BLACK'), [left, top + temp_folder.square_size * y],
                       [left + temp_folder.square_size * dif[count], top + temp_folder.square_size * y], 3)
-
+        collecting_angles(left, top)
         for e in event.get():
             if e.type == QUIT:
                 running = False
@@ -374,11 +392,11 @@ def new_game():
             if e.type == KEYDOWN:
                 if e.key == K_RETURN:
                     pass
-                    #if W == 1280:
+                    # if W == 1280:
                     #    screen.blit()
-                    #elif W == 1600:
+                    # elif W == 1600:
                     #    screen.blit()
-                    #else:
+                    # else:
                     #    screen.blit()
                 elif e.key == K_BACKSPACE:
                     text = text[0:-1]
@@ -388,6 +406,7 @@ def new_game():
                     text_surface = main_font.render(text, True, (26, 117, 47))
 
             if e.type == USEREVENT and e.button == scroll_down_button:
+                print(left_top_angles)  # проверка
                 if index + 1 >= len(index_list):
                     index = 0
                 else:
