@@ -3,6 +3,7 @@ from scripts import button
 from scripts import temp_folder
 import sys
 import random
+import time
 from PIL import Image
 
 difficulty = {1: 'easy (4 * 4)', 2: 'normal (5 * 5)', 3: 'hard (8 * 8)',
@@ -334,9 +335,10 @@ def new_game():
     global W, H, count
     text = ''
     index = 0
+    count_use = 0
+    used = False
     text_surface = main_font.render(text, True, (26, 117, 47))
     temp_folder.folders.main(dif[count])
-    value_check = []
     bool_type = {}
     back_button2 = button.Button(W - 272, H - 100, 252, 74, "Back", 'images/buttons/static_button.png',
                                  'images/buttons/hovered_button.png', 'sound_effects/button_clicked.mp3')
@@ -376,7 +378,6 @@ def new_game():
             if bool_type[keys[i]]:
                 image_to_load = image.load(f'temp_folder/square_{bool_type[keys[i]]}.jpg')
                 screen.blit(image_to_load, left_top_angles[str(keys[i] - 1)])
-        print(bool_type)
         screen.blit(current_image, (W - 272, 50))
         left = (width - temp_folder.square_size * dif[count]) // 2
         top = (height - temp_folder.square_size * dif[count]) // 2
@@ -396,7 +397,34 @@ def new_game():
                 sys.exit()
 
             if e.type == USEREVENT and e.button == check_button:
-                pass
+                count_use = 0
+                used = False
+                text = ''
+                text_surface = font_to_warning.render(text, True, Color('RED'))
+                lose = False
+                for i in range(len(bool_type) - 1):
+                    keys = list(bool_type.keys())
+                    if bool_type[keys[i]] != keys[i]:
+                        del bool_type[keys[i]]
+                        lose = True
+
+                if lose:
+                    screen.fill((0, 0, 0))
+                    if W == 1280:
+                        screen.blit(messed_up_1_2, (0, 0))
+                        time.sleep(1)
+                        screen.blit(messed_up_1_1, (0, 0))
+                        time.sleep(1)
+                    elif W == 1600:
+                        screen.blit(messed_up_2_2, (0, 0))
+                        time.sleep(1)
+                        screen.blit(messed_up_2_1, (0, 0))
+                        time.sleep(1)
+                    else:
+                        screen.blit(messed_up_3_2, (0, 0))
+                        time.sleep(1)
+                        screen.blit(messed_up_3_1, (0, 0))
+                        time.sleep(1)
 
             if e.type == KEYDOWN:
                 if e.key == K_BACKSPACE:
@@ -408,9 +436,15 @@ def new_game():
                         text_surface = font_to_warning.render(text, True, Color('RED'))
                         text = ''
                     elif int(text) <= dif[count] * dif[count] and (int(text) > 0):
-                        if index_list[index] not in value_check:
+                        for i in list(bool_type.keys()):
+                            if index_list[index] == bool_type[i]:
+                                count_use += 1
+                            if count_use >= 1:
+                                used = True
+                        if not used:
                             bool_type[int(text)] = index_list[index]
-                            value_check.append(index_list[index])
+                            print(bool_type)
+                            print(index_list[index])
                             text = ''
                             text_surface = main_font.render(text, True, (26, 117, 47))
                         else:
@@ -425,6 +459,10 @@ def new_game():
                         text_surface = main_font.render(text, True, (26, 117, 47))
 
             if e.type == USEREVENT and e.button == scroll_down_button:
+                count_use = 0
+                used = False
+                text = ''
+                text_surface = font_to_warning.render(text, True, Color('RED'))
                 if index + 1 >= len(index_list):
                     index = 0
                 else:
