@@ -360,12 +360,13 @@ def new_game():
 
         screen.blit(current_image, (W - 272, 50))
         left = (width - temp_folder.square_size * dif[count]) // 2
+        top = (height - temp_folder.square_size * dif[count]) // 2
         for x in range(0, dif[count] + 1):
-            draw.line(screen, Color('BLACK'), [left + temp_folder.square_size * x, 0],
-                      [left + temp_folder.square_size * x, height], 3)
+            draw.line(screen, Color('BLACK'), [left + temp_folder.square_size * x, top],
+                      [left + temp_folder.square_size * x, top + temp_folder.square_size * dif[count]], 3)
         for y in range(0, dif[count] + 1):
-            draw.line(screen, Color('BLACK'), [left, temp_folder.square_size * y],
-                      [left + temp_folder.square_size * dif[count], temp_folder.square_size * y], 3)
+            draw.line(screen, Color('BLACK'), [left, top + temp_folder.square_size * y],
+                      [left + temp_folder.square_size * dif[count], top + temp_folder.square_size * y], 3)
 
         for e in event.get():
             if e.type == QUIT:
