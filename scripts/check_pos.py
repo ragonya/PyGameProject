@@ -1,7 +1,8 @@
 from main import *
 
-
 dif = {1: 4, 2: 5, 3: 8, 4: 16}
+
+
 class check:
     global list_images
     global current_image
@@ -18,3 +19,4 @@ class check:
         self.count2 = self.list_images.index(self.current_image) + 1
         if self.count != self.count2:
             return False
+
