@@ -331,6 +331,7 @@ def collecting_angles(left1, top1):
 
 def new_game():
     global W, H, count
+    images_placed = {}
     text = ''
     index = 0
     text_surface = main_font.render(text, True, (26, 117, 47))
@@ -368,6 +369,10 @@ def new_game():
             screen.blit(text_surface, (W - 272, H - 500))
             width, height = bg_play_rect3_PIL.size
 
+        for i in range(len(images_placed)):
+            keys = list(images_placed.keys())
+            screen.blit(keys[i], images_placed[keys[i]])
+
         screen.blit(current_image, (W - 272, 50))
         left = (width - temp_folder.square_size * dif[count]) // 2
         top = (height - temp_folder.square_size * dif[count]) // 2
@@ -390,17 +395,11 @@ def new_game():
                 pass
 
             if e.type == KEYDOWN:
-                if e.key == K_RETURN:
-                    pass
-                    # if W == 1280:
-                    #    screen.blit()
-                    # elif W == 1600:
-                    #    screen.blit()
-                    # else:
-                    #    screen.blit()
-                elif e.key == K_BACKSPACE:
+                if e.key == K_BACKSPACE:
                     text = text[0:-1]
                     text_surface = main_font.render(text, True, (26, 117, 47))
+                elif e.key == K_RETURN:
+                    images_placed[f'{current_image}'] = left_top_angles[str(int(text) - 1)]
                 else:
                     text += e.unicode
                     text_surface = main_font.render(text, True, (26, 117, 47))
