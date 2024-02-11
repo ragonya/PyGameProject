@@ -5,9 +5,8 @@ import random
 from scripts import temp_folder
 from PIL import Image
 
-# стартовые настройки
-difficulty = {1: 'easy (4 * 4)', 2: 'normal (5 * 5)', 3: 'hard (8 * 8)',
-              4: 'very hard (16 * 16)'}
+
+difficulty = {1: 'easy (4 * 4)', 2: 'normal (5 * 5)', 3: 'hard (8 * 8)', 4: 'very hard (16 * 16)'}  # стартовые настройки
 dif = {1: 4, 2: 5, 3: 8, 4: 16}
 count = 1
 
@@ -15,10 +14,10 @@ init()
 W, H = 1280, 800
 screen = display.set_mode((W, H))
 display.set_caption('PuzzleGame')
-# изображения
+
 icon = image.load('images/icon/icon.png')
 display.set_icon(icon)
-
+# изображения
 bg_main = image.load('images/backGround/bg_main.png')
 bg_settings = image.load('images/backGround/bg_settings.png')
 bg_help = image.load('images/backGround/bg_help.png')
@@ -48,7 +47,7 @@ messed_up_2_2 = image.load('images/you_messed_up/haha_you_messed_up_2_2.png')  #
 
 messed_up_3_1 = image.load('images/you_messed_up/haha_you_messed_up_3_1.png')  # 1 сек до продолжения 1920 x 1200
 messed_up_3_2 = image.load('images/you_messed_up/haha_you_messed_up_3_2.png')  # 2 сек до продолжения 1920 x 1200
-# шрифты и текст
+
 PuzzleGame_txt = font.Font('Fonts/Honk-Regular-VariableFont_MORF,SHLN.ttf', 100)
 PuzzleGame_surface = PuzzleGame_txt.render('PuzzleGame', True, (230, 143, 85))
 main_font = font.Font('Fonts/Oswald-VariableFont_wght.ttf', 50)
@@ -63,15 +62,11 @@ video_settings_surface = video_settings_txt.render('Video Settings', True, (230,
 help_txt = font.Font('Fonts/Honk-Regular-VariableFont_MORF,SHLN.ttf', 100)
 help_surface = help_txt.render('Help', True, (230, 143, 85))
 
-help_description_surface1 = main_font2.render('1. Choose difficulty by clicking on the second button in main menu.',
-                                              True, (196, 2, 21))
-help_description_surface2 = main_font2.render('2. Choose comfortable window size in settings/video.', True,
-                                              (196, 2, 21))
+help_description_surface1 = main_font2.render('1. Choose difficulty by clicking on the second button in main menu.', True, (196, 2, 21))
+help_description_surface2 = main_font2.render('2. Choose comfortable window size in settings/video.', True, (196, 2, 21))
 help_description_surface3 = main_font2.render('3. Click play button.', True, (196, 2, 21))
-help_description_surface4 = main_font2.render(
-    '4. Type position of the picture by typing on keyboard, click check placement button.', True, (196, 2, 21))
-help_description_surface5 = main_font2.render(
-    '5. Click scroll ddwn button if you cant imagine where position of the picture will be.', True, (196, 2, 21))
+help_description_surface4 = main_font2.render('4. Type position of the picture by typing on keyboard, click check placement button.', True, (196, 2, 21))
+help_description_surface5 = main_font2.render('5. Click scroll ddwn button if you cant imagine where position of the picture will be.', True, (196, 2, 21))
 help_description_surface6 = main_font2.render('6. Enjoy!', True, (196, 2, 21))
 
 
@@ -97,35 +92,35 @@ def diff(df_bt):  # сложности
 display.flip()
 
 
-def main_menu():  # главное меню
+def main_menu():  # менюшка
     global W
-    play_button = button.Button(W / 2 - (252 / 2), 200, 252, 74, "Play",  # кнопка play
+    play_button = button.Button(W / 2 - (252 / 2), 200, 252, 74, "Play",
                                 'images/buttons/static_button.png',
                                 'images/buttons/hovered_button.png',
                                 'sound_effects/button_clicked.mp3')
 
-    difficulty_button = button.Button(W / 2 - (252 / 2), 290, 252, 74, f"{difficulty[count]}",  # сложности
+    difficulty_button = button.Button(W / 2 - (252 / 2), 290, 252, 74, f"{difficulty[count]}",
                                       'images/buttons/static_button.png',
                                       'images/buttons/hovered_button.png',
                                       'sound_effects/button_clicked.mp3')
 
-    settings_button = button.Button(W / 2 - (252 / 2), 380, 252, 74, "Settings",  # настройки
+    settings_button = button.Button(W / 2 - (252 / 2), 380, 252, 74, "Settings",
                                     'images/buttons/static_button.png',
                                     'images/buttons/hovered_button.png',
                                     'sound_effects/button_clicked.mp3')
 
-    help_button = button.Button(W / 2 - (252 / 2), 470, 252, 74, "Help",  # помощь
+    help_button = button.Button(W / 2 - (252 / 2), 470, 252, 74, "Help",
                                 'images/buttons/static_button.png',
                                 'images/buttons/hovered_button.png',
                                 'sound_effects/button_clicked.mp3')
 
-    exit_button = button.Button(W / 2 - (252 / 2), 560, 252, 74, "Exit",  # выход из игры
+    exit_button = button.Button(W / 2 - (252 / 2), 560, 252, 74, "Exit",
                                 'images/buttons/static_button.png',
                                 'images/buttons/hovered_button.png',
                                 'sound_effects/button_clicked.mp3')
     display.update()
     running = True
-    while running:  # создание глав меню
+    while running:
         screen.fill((0, 0, 0))
         if W == 1280:
             screen.blit(bg_main, (0, 0))
@@ -135,7 +130,7 @@ def main_menu():  # главное меню
             screen.blit(bg_main3, (0, 0))
         screen.blit(PuzzleGame_surface, (W // 2 - PuzzleGame_surface.get_width() // 2, 20))
 
-        for e in event.get():  # логика кнопок
+        for e in event.get():
             if e.type == QUIT:
                 running = False
 
@@ -151,7 +146,7 @@ def main_menu():  # главное меню
                 sys.exit()
 
             if e.type == USEREVENT and e.button == help_button:
-                help_main_menu()
+                help()
                 sys.exit()
 
             if e.type == USEREVENT and e.button == difficulty_button:
@@ -164,7 +159,6 @@ def main_menu():  # главное меню
             btn.draw(screen)
             btn.check_hover(mouse.get_pos())
         display.flip()
-
 
 def settings_menu():  # меню настроек
     global W
@@ -211,7 +205,6 @@ def settings_menu():  # меню настроек
             btn.check_hover(mouse.get_pos())
         display.flip()
 
-
 def video_settings():
     global W, H
     global screen
@@ -219,9 +212,9 @@ def video_settings():
     basic_button = button.Button(W / 2 - (252 / 2), 200, 252, 74, "1280 x 800", 'images/buttons/static_button.png',
                                  'images/buttons/hovered_button.png', 'sound_effects/button_clicked.mp3')
     medium_button = button.Button(W / 2 - (252 / 2), 290, 252, 74, "1600 x 1000", 'images/buttons/static_button.png',
-                                  'images/buttons/hovered_button.png', 'sound_effects/button_clicked.mp3')
+                                 'images/buttons/hovered_button.png', 'sound_effects/button_clicked.mp3')
     FULL_HD_button = button.Button(W / 2 - (252 / 2), 380, 252, 74, "Full HD", 'images/buttons/static_button.png',
-                                   'images/buttons/hovered_button.png', 'sound_effects/button_clicked.mp3')
+                                 'images/buttons/hovered_button.png', 'sound_effects/button_clicked.mp3')
     back_button = button.Button(W / 2 - (252 / 2), 470, 252, 74, "Back", 'images/buttons/static_button.png',
                                 'images/buttons/hovered_button.png', 'sound_effects/button_clicked.mp3')
     display.update()
@@ -275,8 +268,7 @@ def video_settings():
             btn.check_hover(mouse.get_pos())
         display.flip()
 
-
-def help_main_menu():
+def help():
     global W, H
     back_button1 = button.Button(W / 2 - (252 / 2), H - 100, 252, 74, "Back", 'images/buttons/static_button.png',
                                  'images/buttons/hovered_button.png', 'sound_effects/button_clicked.mp3')
@@ -328,9 +320,9 @@ def new_game():
     back_button2 = button.Button(W - 272, H - 100, 252, 74, "Back", 'images/buttons/static_button.png',
                                  'images/buttons/hovered_button.png', 'sound_effects/button_clicked.mp3')
     hint_button = button.Button(W - 272, H - 200, 252, 74, "Hint", 'images/buttons/static_button.png',
-                                'images/buttons/hovered_button.png', 'sound_effects/button_clicked.mp3')
+                                 'images/buttons/hovered_button.png', 'sound_effects/button_clicked.mp3')
     scroll_down_button = button.Button(W - 272, H - 300, 252, 74, "Scroll Down", 'images/buttons/static_button.png',
-                                       'images/buttons/hovered_button.png', 'sound_effects/button_clicked.mp3')
+                                 'images/buttons/hovered_button.png', 'sound_effects/button_clicked.mp3')
     check_button = button.Button(W - 272, H - 400, 252, 74, "Check placement", 'images/buttons/static_button.png',
                                  'images/buttons/hovered_button.png', 'sound_effects/button_clicked.mp3')
     index_list = []
@@ -382,11 +374,11 @@ def new_game():
             if e.type == KEYDOWN:
                 if e.key == K_RETURN:
                     pass
-                    # if W == 1280:
+                    #if W == 1280:
                     #    screen.blit()
-                    # elif W == 1600:
+                    #elif W == 1600:
                     #    screen.blit()
-                    # else:
+                    #else:
                     #    screen.blit()
                 elif e.key == K_BACKSPACE:
                     text = text[0:-1]
