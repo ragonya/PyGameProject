@@ -28,7 +28,7 @@ class Button:
         current_image = self.hover_image if self.is_hovered else self.image
         screen.blit(current_image, self.rect.topleft)
 
-        ft = font.Font('Fonts/Oswald-VariableFont_wght.ttf', 36)
+        ft = font.Font('Fonts/Oswald-VariableFont_wght.ttf', 30)
         text_surface = ft.render(self.text, True, (255, 255, 255))
         text_rect = text_surface.get_rect(center=self.rect.center)
         screen.blit(text_surface, text_rect)
