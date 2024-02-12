@@ -3,7 +3,6 @@ from scripts import button
 from scripts import temp_folder
 import sys
 import random
-import time
 from PIL import Image
 
 difficulty = {1: 'easy (4 * 4)', 2: 'normal (5 * 5)', 3: 'hard (8 * 8)',
@@ -11,7 +10,7 @@ difficulty = {1: 'easy (4 * 4)', 2: 'normal (5 * 5)', 3: 'hard (8 * 8)',
 dif = {1: 4, 2: 5, 3: 8, 4: 16}
 left_top_angles = {}
 count = 1
-#image_number = 0
+# image_number = 0
 
 init()
 W, H = 1280, 800
@@ -63,6 +62,9 @@ settings_surface = settings_txt.render('Settings', True, (230, 143, 85))
 video_settings_txt = font.Font('Fonts/Honk-Regular-VariableFont_MORF,SHLN.ttf', 100)
 video_settings_surface = video_settings_txt.render('Video Settings', True, (230, 143, 85))
 
+image_choose_txt = font.Font('Fonts/Honk-Regular-VariableFont_MORF,SHLN.ttf', 100)
+image_choose_surface = image_choose_txt.render('Choose Image', True, (230, 143, 85))
+
 help_txt = font.Font('Fonts/Honk-Regular-VariableFont_MORF,SHLN.ttf', 100)
 help_surface = help_txt.render('Help', True, (230, 143, 85))
 
@@ -76,6 +78,9 @@ help_description_surface4 = main_font2.render(
 help_description_surface5 = main_font2.render(
     '5. Click scroll ddwn button if you cant imagine where position of the picture will be.', True, (196, 2, 21))
 help_description_surface6 = main_font2.render('6. Enjoy!', True, (196, 2, 21))
+
+pictures_to_puzzle = ['first_image', 'second_image', 'third_image', 'forth_image', 'fifth_image']
+image_to_puzzle_current = pictures_to_puzzle[0]
 
 
 def diff(df_bt):  # сложности
@@ -171,7 +176,7 @@ def main_menu():  # менюшка
 
 def settings_menu():  # меню настроек
     global W
-    audio_button = button.Button(W / 2 - (252 / 2), 200, 252, 74, "Audio", 'images/buttons/static_button.png',
+    pazzle_image = button.Button(W / 2 - (252 / 2), 200, 252, 74, "Puzzle image", 'images/buttons/static_button.png',
                                  'images/buttons/hovered_button.png', 'sound_effects/button_clicked.mp3')
     video_button = button.Button(W / 2 - (252 / 2), 290, 252, 74, "Video", 'images/buttons/static_button.png',
                                  'images/buttons/hovered_button.png', 'sound_effects/button_clicked.mp3')
@@ -206,10 +211,14 @@ def settings_menu():  # меню настроек
                 video_settings()
                 sys.exit()
 
-            for btn in [audio_button, video_button, back_button]:
+            if e.type == USEREVENT and e.button == pazzle_image:
+                image_choose()
+                sys.exit()
+
+            for btn in [pazzle_image, video_button, back_button]:
                 btn.handle_event(e)
 
-        for btn in [audio_button, video_button, back_button]:
+        for btn in [pazzle_image, video_button, back_button]:
             btn.draw(screen)
             btn.check_hover(mouse.get_pos())
         display.flip()
@@ -279,6 +288,82 @@ def video_settings():
         display.flip()
 
 
+def image_choose():
+    global W, H, image_to_puzzle_current
+    global screen
+    # выбор изображения
+    back_button = button.Button(W - 272, H - 94, 252, 74, "Back", 'images/buttons/static_button.png',
+                                'images/buttons/hovered_button.png', 'sound_effects/button_clicked.mp3')
+    first_image_button = button.Button(40, 310, 150, 60, "first image", 'images/buttons/static_button.png',
+                                       'images/buttons/hovered_button.png', 'sound_effects/button_clicked.mp3')
+    second_image_button = button.Button(240, 310, 150, 60, "second image", 'images/buttons/static_button.png',
+                                        'images/buttons/hovered_button.png', 'sound_effects/button_clicked.mp3')
+    third_image_button = button.Button(440, 310, 150, 60, "third image", 'images/buttons/static_button.png',
+                                       'images/buttons/hovered_button.png', 'sound_effects/button_clicked.mp3')
+    forth_image_button = button.Button(640, 310, 150, 60, "forth image", 'images/buttons/static_button.png',
+                                       'images/buttons/hovered_button.png', 'sound_effects/button_clicked.mp3')
+    fifth_image_button = button.Button(840, 310, 150, 60, "fifth image", 'images/buttons/static_button.png',
+                                       'images/buttons/hovered_button.png', 'sound_effects/button_clicked.mp3')
+
+    display.update()
+    running = True
+    while running:
+        screen.fill((0, 0, 0))
+        if W == 1280:
+            screen.blit(bg_settings, (0, 0))
+            for i in range(len(pictures_to_puzzle)):
+                image_to_load = image.load(f'images/images_to_pazzle_preview/{pictures_to_puzzle[i]}.png')
+                screen.blit(image_to_load, (40 + 200 * i, 200))
+        elif W == 1600:
+            screen.blit(bg_settings2, (0, 0))
+        else:
+            screen.blit(bg_settings3, (0, 0))
+        screen.blit(image_choose_surface, (W // 2 - image_choose_surface.get_width() // 2, 20))
+
+        for e in event.get():
+            if e.type == QUIT:
+                running = False
+
+            if e.type == USEREVENT and e.button == back_button:
+                settings_menu()
+                sys.exit()
+
+            if e.type == USEREVENT and e.button == first_image_button:
+                image_to_puzzle_current = pictures_to_puzzle[0]
+                main_menu()
+                sys.exit()
+
+            if e.type == USEREVENT and e.button == second_image_button:
+                image_to_puzzle_current = pictures_to_puzzle[1]
+                main_menu()
+                sys.exit()
+
+            if e.type == USEREVENT and e.button == third_image_button:
+                image_to_puzzle_current = pictures_to_puzzle[2]
+                main_menu()
+                sys.exit()
+
+            if e.type == USEREVENT and e.button == forth_image_button:
+                image_to_puzzle_current = pictures_to_puzzle[3]
+                main_menu()
+                sys.exit()
+
+            if e.type == USEREVENT and e.button == fifth_image_button:
+                image_to_puzzle_current = pictures_to_puzzle[4]
+                main_menu()
+                sys.exit()
+
+            for btn in [back_button, first_image_button, second_image_button, third_image_button,
+                        forth_image_button, fifth_image_button]:
+                btn.handle_event(e)
+
+        for btn in [back_button, first_image_button, second_image_button, third_image_button,
+                    forth_image_button, fifth_image_button]:
+            btn.draw(screen)
+            btn.check_hover(mouse.get_pos())
+        display.flip()
+
+
 def help():
     global W, H
     back_button1 = button.Button(W / 2 - (252 / 2), H - 100, 252, 74, "Back", 'images/buttons/static_button.png',
@@ -332,13 +417,13 @@ def collecting_angles(left1, top1):
 
 
 def new_game():
-    global W, H, count
+    global W, H, count, image_to_puzzle_current
     text = ''
     index = 0
     count_use = 0
     used = False
     text_surface = main_font.render(text, True, (26, 117, 47))
-    temp_folder.folders.main(dif[count])
+    temp_folder.folders.main(dif[count], image_to_puzzle_current)
     bool_type = {}
     back_button2 = button.Button(W - 272, H - 100, 252, 74, "Back", 'images/buttons/static_button.png',
                                  'images/buttons/hovered_button.png', 'sound_effects/button_clicked.mp3')
@@ -402,29 +487,30 @@ def new_game():
                 text = ''
                 text_surface = font_to_warning.render(text, True, Color('RED'))
                 lose = False
-                for i in range(len(bool_type) - 1):
-                    keys = list(bool_type.keys())
+                LOOSE_COOLDOWN = USEREVENT + 1
+                bool_type_copy = bool_type
+                keys = list(bool_type_copy.keys())
+                for i in range(len(keys) - 1):
                     if bool_type[keys[i]] != keys[i]:
                         del bool_type[keys[i]]
                         lose = True
-
                 if lose:
                     screen.fill((0, 0, 0))
                     if W == 1280:
                         screen.blit(messed_up_1_2, (0, 0))
-                        time.sleep(1)
+                        time.set_timer(LOOSE_COOLDOWN, 100, True)
                         screen.blit(messed_up_1_1, (0, 0))
-                        time.sleep(1)
+                        time.set_timer(LOOSE_COOLDOWN, 100, True)
                     elif W == 1600:
                         screen.blit(messed_up_2_2, (0, 0))
-                        time.sleep(1)
+                        time.set_timer(LOOSE_COOLDOWN, 100, True)
                         screen.blit(messed_up_2_1, (0, 0))
-                        time.sleep(1)
+                        time.set_timer(LOOSE_COOLDOWN, 100, True)
                     else:
                         screen.blit(messed_up_3_2, (0, 0))
-                        time.sleep(1)
+                        time.set_timer(LOOSE_COOLDOWN, 100, True)
                         screen.blit(messed_up_3_1, (0, 0))
-                        time.sleep(1)
+                        time.set_timer(LOOSE_COOLDOWN, 100, True)
 
             if e.type == KEYDOWN:
                 if e.key == K_BACKSPACE:
@@ -443,8 +529,6 @@ def new_game():
                                 used = True
                         if not used:
                             bool_type[int(text)] = index_list[index]
-                            print(bool_type)
-                            print(index_list[index])
                             text = ''
                             text_surface = main_font.render(text, True, (26, 117, 47))
                         else:
