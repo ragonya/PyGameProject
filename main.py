@@ -2,6 +2,7 @@ from pygame import *
 from scripts import button
 from scripts import temp_folder
 import sys
+import time
 import random
 from PIL import Image
 
@@ -292,18 +293,45 @@ def image_choose():
     global W, H, image_to_puzzle_current
     global screen
     # выбор изображения
-    back_button = button.Button(W - 272, H - 94, 252, 74, "Back", 'images/buttons/static_button.png',
-                                'images/buttons/hovered_button.png', 'sound_effects/button_clicked.mp3')
-    first_image_button = button.Button(40, 310, 150, 60, "first image", 'images/buttons/static_button.png',
-                                       'images/buttons/hovered_button.png', 'sound_effects/button_clicked.mp3')
-    second_image_button = button.Button(240, 310, 150, 60, "second image", 'images/buttons/static_button.png',
-                                        'images/buttons/hovered_button.png', 'sound_effects/button_clicked.mp3')
-    third_image_button = button.Button(440, 310, 150, 60, "third image", 'images/buttons/static_button.png',
-                                       'images/buttons/hovered_button.png', 'sound_effects/button_clicked.mp3')
-    forth_image_button = button.Button(640, 310, 150, 60, "forth image", 'images/buttons/static_button.png',
-                                       'images/buttons/hovered_button.png', 'sound_effects/button_clicked.mp3')
-    fifth_image_button = button.Button(840, 310, 150, 60, "fifth image", 'images/buttons/static_button.png',
-                                       'images/buttons/hovered_button.png', 'sound_effects/button_clicked.mp3')
+    if W == 1280:
+        back_button = button.Button(W - 272, H - 94, 252, 74, "Back", 'images/buttons/static_button.png',
+                                    'images/buttons/hovered_button.png', 'sound_effects/button_clicked.mp3')
+        first_image_button = button.Button(40, 310, 150, 60, "first image", 'images/buttons/static_button.png',
+                                           'images/buttons/hovered_button.png', 'sound_effects/button_clicked.mp3')
+        second_image_button = button.Button(240, 310, 150, 60, "second image", 'images/buttons/static_button.png',
+                                            'images/buttons/hovered_button.png', 'sound_effects/button_clicked.mp3')
+        third_image_button = button.Button(440, 310, 150, 60, "third image", 'images/buttons/static_button.png',
+                                           'images/buttons/hovered_button.png', 'sound_effects/button_clicked.mp3')
+        forth_image_button = button.Button(640, 310, 150, 60, "forth image", 'images/buttons/static_button.png',
+                                           'images/buttons/hovered_button.png', 'sound_effects/button_clicked.mp3')
+        fifth_image_button = button.Button(840, 310, 150, 60, "fifth image", 'images/buttons/static_button.png',
+                                           'images/buttons/hovered_button.png', 'sound_effects/button_clicked.mp3')
+    elif W == 1600:
+        back_button = button.Button(W - 272, H - 94, 252, 74, "Back", 'images/buttons/static_button.png',
+                                    'images/buttons/hovered_button.png', 'sound_effects/button_clicked.mp3')
+        first_image_button = button.Button(40, 310, 150, 60, "first image", 'images/buttons/static_button.png',
+                                           'images/buttons/hovered_button.png', 'sound_effects/button_clicked.mp3')
+        second_image_button = button.Button(304, 310, 150, 60, "second image", 'images/buttons/static_button.png',
+                                            'images/buttons/hovered_button.png', 'sound_effects/button_clicked.mp3')
+        third_image_button = button.Button(568, 310, 150, 60, "third image", 'images/buttons/static_button.png',
+                                           'images/buttons/hovered_button.png', 'sound_effects/button_clicked.mp3')
+        forth_image_button = button.Button(832, 310, 150, 60, "forth image", 'images/buttons/static_button.png',
+                                           'images/buttons/hovered_button.png', 'sound_effects/button_clicked.mp3')
+        fifth_image_button = button.Button(1096, 310, 150, 60, "fifth image", 'images/buttons/static_button.png',
+                                           'images/buttons/hovered_button.png', 'sound_effects/button_clicked.mp3')
+    else:
+        back_button = button.Button(W - 272, H - 94, 252, 74, "Back", 'images/buttons/static_button.png',
+                                    'images/buttons/hovered_button.png', 'sound_effects/button_clicked.mp3')
+        first_image_button = button.Button(40, 310, 150, 60, "first image", 'images/buttons/static_button.png',
+                                           'images/buttons/hovered_button.png', 'sound_effects/button_clicked.mp3')
+        second_image_button = button.Button(368, 310, 150, 60, "second image", 'images/buttons/static_button.png',
+                                            'images/buttons/hovered_button.png', 'sound_effects/button_clicked.mp3')
+        third_image_button = button.Button(696, 310, 150, 60, "third image", 'images/buttons/static_button.png',
+                                           'images/buttons/hovered_button.png', 'sound_effects/button_clicked.mp3')
+        forth_image_button = button.Button(1024, 310, 150, 60, "forth image", 'images/buttons/static_button.png',
+                                           'images/buttons/hovered_button.png', 'sound_effects/button_clicked.mp3')
+        fifth_image_button = button.Button(1352, 310, 150, 60, "fifth image", 'images/buttons/static_button.png',
+                                           'images/buttons/hovered_button.png', 'sound_effects/button_clicked.mp3')
 
     display.update()
     running = True
@@ -316,8 +344,14 @@ def image_choose():
                 screen.blit(image_to_load, (40 + 200 * i, 200))
         elif W == 1600:
             screen.blit(bg_settings2, (0, 0))
+            for i in range(len(pictures_to_puzzle)):
+                image_to_load = image.load(f'images/images_to_pazzle_preview/{pictures_to_puzzle[i]}.png')
+                screen.blit(image_to_load, (40 + 264 * i, 200))
         else:
             screen.blit(bg_settings3, (0, 0))
+            for i in range(len(pictures_to_puzzle)):
+                image_to_load = image.load(f'images/images_to_pazzle_preview/{pictures_to_puzzle[i]}.png')
+                screen.blit(image_to_load, (40 + 328 * i, 200))
         screen.blit(image_choose_surface, (W // 2 - image_choose_surface.get_width() // 2, 20))
 
         for e in event.get():
@@ -417,11 +451,13 @@ def collecting_angles(left1, top1):
 
 
 def new_game():
-    global W, H, count, image_to_puzzle_current
+    global W, H, count, image_to_puzzle_current, lose
     text = ''
     index = 0
     count_use = 0
     used = False
+    lose = False
+    asd = False
     text_surface = main_font.render(text, True, (26, 117, 47))
     temp_folder.folders.main(dif[count], image_to_puzzle_current)
     bool_type = {}
@@ -441,129 +477,177 @@ def new_game():
     display.update()
     running = True
     while running:
-        screen.fill((0, 0, 0))
-        if W == 1280:
-            screen.blit(bg_play, (0, 0))
-            screen.blit(bg_play_rect, (0, 0))  # фон в главном меню
-            screen.blit(text_surface, (W - 272, H - 500))
-            width, height = bg_play_rect_PIL.size
-        elif W == 1600:
-            screen.blit(bg_play2, (0, 0))
-            screen.blit(bg_play_rect2, (0, 0))
-            screen.blit(text_surface, (W - 272, H - 500))
-            width, height = bg_play_rect2_PIL.size
+        if lose:
+            screen.fill((0, 0, 0))
+            if W == 1280:
+                start_time = time.time()
+                end_time = 1
+                while True:
+                    current_time = int(time.time() - start_time)
+                    screen.blit(messed_up_1_2, (0, 0))
+                    display.flip()
+                    if current_time is end_time:
+                        lose = False
+                        break
+                start_time = time.time()
+                end_time = 1
+                while True:
+                    current_time = int(time.time() - start_time)
+                    screen.blit(messed_up_1_1, (0, 0))
+                    display.flip()
+                    if current_time is end_time:
+                        lose = False
+                        break
+
+            if W == 1600:
+                start_time = time.time()
+                end_time = 1
+                while True:
+                    current_time = int(time.time() - start_time)
+                    screen.blit(messed_up_2_2, (0, 0))
+                    display.flip()
+                    if current_time is end_time:
+                        lose = False
+                        break
+                start_time = time.time()
+                end_time = 1
+                while True:
+                    current_time = int(time.time() - start_time)
+                    screen.blit(messed_up_2_1, (0, 0))
+                    display.flip()
+                    if current_time is end_time:
+                        lose = False
+                        break
+            if W == 1920:
+                start_time = time.time()
+                end_time = 1
+                while True:
+                    current_time = int(time.time() - start_time)
+                    screen.blit(messed_up_3_2, (0, 0))
+                    display.flip()
+                    if current_time is end_time:
+                        lose = False
+                        break
+                start_time = time.time()
+                end_time = 1
+                while True:
+                    current_time = int(time.time() - start_time)
+                    screen.blit(messed_up_3_1, (0, 0))
+                    display.flip()
+                    if current_time is end_time:
+                        lose = False
+                        break
+
         else:
-            screen.blit(bg_play3, (0, 0))
-            screen.blit(bg_play_rect3, (0, 0))
-            screen.blit(text_surface, (W - 272, H - 500))
-            width, height = bg_play_rect3_PIL.size
+            screen.fill((0, 0, 0))
+            if W == 1280:
+                screen.blit(bg_play, (0, 0))
+                screen.blit(bg_play_rect, (0, 0))  # фон в главном меню
+                screen.blit(text_surface, (W - 272, H - 500))
+                width, height = bg_play_rect_PIL.size
+            elif W == 1600:
+                screen.blit(bg_play2, (0, 0))
+                screen.blit(bg_play_rect2, (0, 0))
+                screen.blit(text_surface, (W - 272, H - 500))
+                width, height = bg_play_rect2_PIL.size
+            else:
+                screen.blit(bg_play3, (0, 0))
+                screen.blit(bg_play_rect3, (0, 0))
+                screen.blit(text_surface, (W - 272, H - 500))
+                width, height = bg_play_rect3_PIL.size
 
-        for i in range(len(bool_type)):
-            keys = list(bool_type.keys())
-            if bool_type[keys[i]]:
-                image_to_load = image.load(f'temp_folder/square_{bool_type[keys[i]]}.jpg')
-                screen.blit(image_to_load, left_top_angles[str(keys[i] - 1)])
-        screen.blit(current_image, (W - 272, 50))
-        left = (width - temp_folder.square_size * dif[count]) // 2
-        top = (height - temp_folder.square_size * dif[count]) // 2
-        for x in range(0, dif[count] + 1):
-            draw.line(screen, Color('BLACK'), [left + temp_folder.square_size * x, top],
-                      [left + temp_folder.square_size * x, top + temp_folder.square_size * dif[count]], 3)
-        for y in range(0, dif[count] + 1):
-            draw.line(screen, Color('BLACK'), [left, top + temp_folder.square_size * y],
-                      [left + temp_folder.square_size * dif[count], top + temp_folder.square_size * y], 3)
-        collecting_angles(left, top)
-        for e in event.get():
-            if e.type == QUIT:
-                running = False
+            for i in range(len(bool_type)):
+                keys = list(bool_type.keys())
+                if bool_type[keys[i]]:
+                    image_to_load = image.load(f'temp_folder/square_{bool_type[keys[i]]}.jpg')
+                    screen.blit(image_to_load, left_top_angles[str(keys[i] - 1)])
+            screen.blit(current_image, (W - 272, 50))
+            left = (width - temp_folder.square_size * dif[count]) // 2
+            top = (height - temp_folder.square_size * dif[count]) // 2
+            for x in range(0, dif[count] + 1):
+                draw.line(screen, Color('BLACK'), [left + temp_folder.square_size * x, top],
+                          [left + temp_folder.square_size * x, top + temp_folder.square_size * dif[count]], 3)
+            for y in range(0, dif[count] + 1):
+                draw.line(screen, Color('BLACK'), [left, top + temp_folder.square_size * y],
+                          [left + temp_folder.square_size * dif[count], top + temp_folder.square_size * y], 3)
+            collecting_angles(left, top)
+            for e in event.get():
+                if e.type == QUIT:
+                    running = False
 
-            if e.type == USEREVENT and e.button == back_button2:
-                main_menu()
-                sys.exit()
+                if e.type == USEREVENT and e.button == back_button2:
+                    main_menu()
+                    sys.exit()
 
-            if e.type == USEREVENT and e.button == check_button:
-                count_use = 0
-                used = False
-                text = ''
-                text_surface = font_to_warning.render(text, True, Color('RED'))
-                lose = False
-                LOOSE_COOLDOWN = USEREVENT + 1
-                bool_type_copy = bool_type
-                keys = list(bool_type_copy.keys())
-                for i in range(len(keys) - 1):
-                    if bool_type[keys[i]] != keys[i]:
-                        del bool_type[keys[i]]
-                        lose = True
-                if lose:
-                    screen.fill((0, 0, 0))
-                    if W == 1280:
-                        screen.blit(messed_up_1_2, (0, 0))
-                        time.set_timer(LOOSE_COOLDOWN, 100, True)
-                        screen.blit(messed_up_1_1, (0, 0))
-                        time.set_timer(LOOSE_COOLDOWN, 100, True)
-                    elif W == 1600:
-                        screen.blit(messed_up_2_2, (0, 0))
-                        time.set_timer(LOOSE_COOLDOWN, 100, True)
-                        screen.blit(messed_up_2_1, (0, 0))
-                        time.set_timer(LOOSE_COOLDOWN, 100, True)
-                    else:
-                        screen.blit(messed_up_3_2, (0, 0))
-                        time.set_timer(LOOSE_COOLDOWN, 100, True)
-                        screen.blit(messed_up_3_1, (0, 0))
-                        time.set_timer(LOOSE_COOLDOWN, 100, True)
+                if e.type == USEREVENT and e.button == check_button:
+                    count_use = 0
+                    used = False
+                    text = ''
+                    text_surface = font_to_warning.render(text, True, Color('RED'))
+                    bool_type_copy = bool_type
+                    keys = list(bool_type_copy.keys())
+                    for i in range(len(keys)):
+                        if bool_type_copy[keys[i]] != keys[i]:
+                            del bool_type[keys[i]]
+                            lose = True
 
-            if e.type == KEYDOWN:
-                if e.key == K_BACKSPACE:
-                    text = text[0:-1]
-                    text_surface = main_font.render(text, True, (26, 117, 47))
-                elif e.key == K_RETURN:
-                    if text == '':
-                        text = 'please type digit'
-                        text_surface = font_to_warning.render(text, True, Color('RED'))
-                        text = ''
-                    elif int(text) <= dif[count] * dif[count] and (int(text) > 0):
-                        for i in list(bool_type.keys()):
-                            if index_list[index] == bool_type[i]:
-                                count_use += 1
-                            if count_use >= 1:
-                                used = True
-                        if not used:
-                            bool_type[int(text)] = index_list[index]
-                            text = ''
-                            text_surface = main_font.render(text, True, (26, 117, 47))
-                        else:
-                            text = 'image already used'
+                if e.type == KEYDOWN:
+                    if e.key == K_BACKSPACE:
+                        text = text[0:-1]
+                        text_surface = main_font.render(text, True, (26, 117, 47))
+                    elif e.key == K_RETURN:
+                        if text == '':
+                            text = 'please type digit'
                             text_surface = font_to_warning.render(text, True, Color('RED'))
                             text = ''
-                elif e.key == K_z:
-                    del bool_type[list(bool_type.keys())[-1]]
-                else:
-                    if e.unicode.isdigit():
-                        text += e.unicode
-                        text_surface = main_font.render(text, True, (26, 117, 47))
+                        elif int(text) <= dif[count] * dif[count] and (int(text) > 0):
+                            for i in list(bool_type.keys()):
+                                if index_list[index] == bool_type[i]:
+                                    count_use += 1
+                                if count_use >= 1:
+                                    used = True
+                            if int(text) in list(bool_type.keys()):
+                                text = 'cell already used'
+                                text_surface = font_to_warning.render(text, True, Color('RED'))
+                                text = ''
+                            elif not used:
+                                bool_type[int(text)] = index_list[index]
+                                text = ''
+                                text_surface = main_font.render(text, True, (26, 117, 47))
+                            else:
+                                text = 'image already used'
+                                text_surface = font_to_warning.render(text, True, Color('RED'))
+                                text = ''
+                    elif e.key == K_z:
+                        if bool_type:
+                            del bool_type[list(bool_type.keys())[-1]]
+                    else:
+                        if e.unicode.isdigit():
+                            text += e.unicode
+                            text_surface = main_font.render(text, True, (26, 117, 47))
 
-            if e.type == USEREVENT and e.button == scroll_down_button:
-                count_use = 0
-                used = False
-                text = ''
-                text_surface = font_to_warning.render(text, True, Color('RED'))
-                if index + 1 >= len(index_list):
-                    index = 0
-                else:
-                    index += 1
-                current_image = image.load(f'temp_folder/square_{index_list[index]}.jpg')
+                if e.type == USEREVENT and e.button == scroll_down_button:
+                    count_use = 0
+                    used = False
+                    text = ''
+                    text_surface = font_to_warning.render(text, True, Color('RED'))
+                    if index + 1 >= len(index_list):
+                        index = 0
+                    else:
+                        index += 1
+                    current_image = image.load(f'temp_folder/square_{index_list[index]}.jpg')
 
-            if e.type == USEREVENT and e.button == hint_button:
-                text = str(index_list[index])
-                text_surface = main_font.render(text, True, (26, 117, 47))
+                if e.type == USEREVENT and e.button == hint_button:
+                    text = str(index_list[index])
+                    text_surface = main_font.render(text, True, (26, 117, 47))
+
+                for btn in [back_button2, hint_button, scroll_down_button, check_button]:
+                    btn.handle_event(e)
 
             for btn in [back_button2, hint_button, scroll_down_button, check_button]:
-                btn.handle_event(e)
-
-        for btn in [back_button2, hint_button, scroll_down_button, check_button]:
-            btn.draw(screen)
-            btn.check_hover(mouse.get_pos())
-        display.flip()
+                btn.draw(screen)
+                btn.check_hover(mouse.get_pos())
+            display.flip()
 
 
 if __name__ == '__main__':
