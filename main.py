@@ -4,6 +4,7 @@ from scripts import temp_folder
 import sys
 import time
 import random
+import os
 from PIL import Image
 
 difficulty = {1: 'easy (4 * 4)', 2: 'normal (5 * 5)', 3: 'hard (8 * 8)',
@@ -460,6 +461,7 @@ def new_game():
     asd = False
     text_surface = main_font.render(text, True, (26, 117, 47))
     temp_folder.folders.main(dif[count], image_to_puzzle_current)
+    os.startfile(os.path.abspath(f'images/images_to_pazzle/{image_to_puzzle_current}.jpg'))
     bool_type = {}
     back_button2 = button.Button(W - 272, H - 100, 252, 74, "Back", 'images/buttons/static_button.png',
                                  'images/buttons/hovered_button.png', 'sound_effects/button_clicked.mp3')
