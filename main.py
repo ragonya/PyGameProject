@@ -57,6 +57,7 @@ PuzzleGame_surface = PuzzleGame_txt.render('PuzzleGame', True, (230, 143, 85))
 main_font = font.Font('Fonts/Oswald-VariableFont_wght.ttf', 50)
 main_font2 = font.Font('Fonts/Oswald-VariableFont_wght.ttf', 40)
 font_to_warning = font.Font('Fonts/Oswald-VariableFont_wght.ttf', 35)
+font_to_warning2 = font.Font('Fonts/Oswald-VariableFont_wght.ttf', 20)
 
 settings_txt = font.Font('Fonts/Honk-Regular-VariableFont_MORF,SHLN.ttf', 100)
 settings_surface = settings_txt.render('Settings', True, (230, 143, 85))
@@ -573,6 +574,9 @@ def new_game():
                 draw.line(screen, Color('BLACK'), [left, top + temp_folder.square_size * y],
                           [left + temp_folder.square_size * dif[count], top + temp_folder.square_size * y], 3)
             collecting_angles(left, top)
+            for i in range(1, dif[count] * dif[count] + 1):
+                number_surfaces = font_to_warning2.render(f'{i}', True, (0, 0, 0))
+                screen.blit(number_surfaces, (5 + left_top_angles[f'{i - 1}'][0], left_top_angles[f'{i - 1}'][1]))
             for e in event.get():
                 if e.type == QUIT:
                     running = False
