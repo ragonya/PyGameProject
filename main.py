@@ -459,7 +459,6 @@ def new_game():
     count_use = 0
     used = False
     lose = False
-    asd = False
     text_surface = main_font.render(text, True, (26, 117, 47))
     temp_folder.folders.main(dif[count], image_to_puzzle_current)
     os.startfile(os.path.abspath(f'images/images_to_pazzle/{image_to_puzzle_current}.jpg'))
@@ -476,7 +475,8 @@ def new_game():
     for i in range(1, dif[count] * dif[count] + 1):
         index_list.append(i)
     random.shuffle(index_list)
-    current_image = image.load(f'temp_folder/square_{index_list[index]}.jpg')
+    index_list_copy = index_list
+    current_image = image.load(f'temp_folder/square_{index_list_copy[index]}.jpg')
     display.update()
     running = True
     while running:
@@ -596,6 +596,9 @@ def new_game():
                         if bool_type_copy[keys[i]] != keys[i]:
                             del bool_type[keys[i]]
                             lose = True
+                    index_list_copy = index_list
+                    for i in bool_type.keys():
+                        del index_list_copy[bool_type[i].index()]
 
                 if e.type == KEYDOWN:
                     if e.key == K_BACKSPACE:
@@ -608,7 +611,7 @@ def new_game():
                             text = ''
                         elif int(text) <= dif[count] * dif[count] and (int(text) > 0):
                             for i in list(bool_type.keys()):
-                                if index_list[index] == bool_type[i]:
+                                if index_list_copy[index] == bool_type[i]:
                                     count_use += 1
                                 if count_use >= 1:
                                     used = True
@@ -617,7 +620,7 @@ def new_game():
                                 text_surface = font_to_warning.render(text, True, Color('RED'))
                                 text = ''
                             elif not used:
-                                bool_type[int(text)] = index_list[index]
+                                bool_type[int(text)] = index_list_copy[index]
                                 text = ''
                                 text_surface = main_font.render(text, True, (26, 117, 47))
                             else:
@@ -637,14 +640,19 @@ def new_game():
                     used = False
                     text = ''
                     text_surface = font_to_warning.render(text, True, Color('RED'))
-                    if index + 1 >= len(index_list):
+                    if index + 1 >= len(index_list_copy):
                         index = 0
                     else:
                         index += 1
-                    current_image = image.load(f'temp_folder/square_{index_list[index]}.jpg')
+                    current_image = image.load(f'temp_folder/square_{index_list_copy[index]}.jpg')
+                    if index - 1 < 0:
+                        index2 = len(index_list_copy) - 1
+                        del index_list_copy[index2]
+                    else:
+                        del index_list_copy[index - 1]
 
                 if e.type == USEREVENT and e.button == hint_button:
-                    text = str(index_list[index])
+                    text = str(index_list_copy[index])
                     text_surface = main_font.render(text, True, (26, 117, 47))
 
                 for btn in [back_button2, hint_button, scroll_down_button, check_button]:
