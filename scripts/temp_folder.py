@@ -5,8 +5,11 @@ from PIL import Image
 
 class folders:
     def create_folder():  # создание временной папки
-        shutil.rmtree(os.path.abspath('temp_folder'))
-        os.mkdir('temp_folder')
+        if os.path.isdir('temp_folder'):
+            shutil.rmtree(os.path.abspath('temp_folder'))
+            os.mkdir('temp_folder')
+        else:
+            os.mkdir('temp_folder')
 
     def split_image_into_squares(image_path, save_dir, num_squares):  # алгоритм разбития
         global square_size
